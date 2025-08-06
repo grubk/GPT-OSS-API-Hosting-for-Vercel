@@ -1,4 +1,4 @@
-# GPT-OSS-20B API
+# GPT-OSS-20B API for Vercel deployment
 
 A Flask API for chatting with GPT-OSS-20B model via Hugging Face, made to be deployed on Vercel.
 
