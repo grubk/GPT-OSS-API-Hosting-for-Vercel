@@ -1,8 +1,7 @@
 import requests
 import json
 
-# Your actual deployed URL
-base_url = "https://gpt-oss-20b-api-hosting.vercel.app"
+base_url = "your-deployed-url"  # Replace with your actual URL
 chat_url = f"{base_url}/chat"
 
 def test_api(test_name, payload):
@@ -16,7 +15,6 @@ def test_api(test_name, payload):
         print(f"❌ Error: {e}")
         return False
 
-# Test cases
 tests = [
     {
         "name": "Simple Question",
