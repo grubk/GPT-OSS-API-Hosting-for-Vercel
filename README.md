@@ -1,8 +1,8 @@
-# GPT-OSS-20B API
+# GPT-OSS-20B API for Vercel deployment
 
-A Flask API for chatting with GPT-OSS-20B model via Hugging Face.
+A Flask API for chatting with GPT-OSS-20B model via Hugging Face, made to be deployed on Vercel.
 
-## Deployment on Vercel
+[test.py](https://github.com/grubk/gpt-oss-20b-api-hosting/blob/main/test.py) is included for test cases/demonstrate usage after you deploy.
 
 ### Prerequisites
 1. A Vercel account
@@ -11,33 +11,23 @@ A Flask API for chatting with GPT-OSS-20B model via Hugging Face.
 
 ### Steps to Deploy
 
-1. **Install Vercel CLI** (optional):
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **Set up environment variables in Vercel**:
+1. **Set up environment variables in Vercel**:
    - Go to your Vercel dashboard
    - Navigate to your project settings
    - Add environment variable: `HF_TOKEN` with your Hugging Face API token
    - Optional: Add `API_KEY` with a secure random string for API authentication
    - Optional: Add `ENABLE_RATE_LIMITING` set to `true` to enable rate limiting (default: false)
 
-3. **Deploy via Git**:
-   - Push your code to GitHub/GitLab/Bitbucket
+2. **Deploy via Git**:
+   - Push your code to a repository
    - Import the repository in Vercel dashboard
    - Vercel will automatically detect the configuration and deploy
 
-4. **Deploy via CLI** (alternative):
-   ```bash
-   vercel --prod
-   ```
 
 ### Usage
 
 Send POST requests to `https://your-vercel-app.vercel.app/chat` with the following format:
 
-**Without Authentication:**
 ```json
 {
   "messages": [
@@ -45,19 +35,6 @@ Send POST requests to `https://your-vercel-app.vercel.app/chat` with the followi
   ],
   "model": "openai/gpt-oss-20b:fireworks-ai"
 }
-```
-
-**With Authentication (if API_KEY is set):**
-```bash
-curl -X POST https://your-vercel-app.vercel.app/chat \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer your-api-key-here" \
-  -d '{
-    "messages": [
-      {"role": "user", "content": "Hello!"}
-    ],
-    "model": "openai/gpt-oss-20b:fireworks-ai"
-  }'
 ```
 
 ### Files Created for Vercel Deployment
@@ -89,12 +66,12 @@ When `ENABLE_RATE_LIMITING=true`, the API applies these limits:
    ```
 
 2. Install dependencies:
-   ```bash
+   ```
    pip install -r requirements.txt
    ```
 
 3. Run the app:
-   ```bash
+   ```
    python api/app.py
    ```
 
