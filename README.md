@@ -21,6 +21,7 @@ A Flask API for chatting with GPT-OSS-20B model via Hugging Face.
    - Navigate to your project settings
    - Add environment variable: `HF_TOKEN` with your Hugging Face API token
    - Optional: Add `API_KEY` with a secure random string for API authentication
+   - Optional: Add `ENABLE_RATE_LIMITING` set to `true` to enable rate limiting (default: false)
 
 3. **Deploy via Git**:
    - Push your code to GitHub/GitLab/Bitbucket
@@ -69,6 +70,14 @@ curl -X POST https://your-vercel-app.vercel.app/chat \
 
 - `HF_TOKEN` - Your Hugging Face API token (required)
 - `API_KEY` - Optional API key for authentication (if set, all requests must include Authorization header)
+- `ENABLE_RATE_LIMITING` - Set to `true` to enable rate limiting (default: `false`)
+
+### Rate Limiting
+
+When `ENABLE_RATE_LIMITING=true`, the API applies these limits:
+- **10 requests per minute per IP address** for `/chat` endpoint
+- Rate limit exceeded returns `429 Too Many Requests`
+- No rate limiting on health check endpoint (`/`)
 
 ## Local Development
 
@@ -76,6 +85,7 @@ curl -X POST https://your-vercel-app.vercel.app/chat \
    ```
    HF_TOKEN=your_huggingface_token_here
    API_KEY=your_optional_api_key_here
+   ENABLE_RATE_LIMITING=true
    ```
 
 2. Install dependencies:
