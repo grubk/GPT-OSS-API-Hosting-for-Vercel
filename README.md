@@ -1,28 +1,41 @@
 # GPT-OSS-20B API for Vercel deployment
 
-A Flask API for chatting with GPT-OSS-20B model via Hugging Face, made to be deployed on Vercel.
+‼️Today, OpenAI released an [open-source model](https://huggingface.co/openai/gpt-oss-20b) that is roughly as powerful as gpt-o3. This repo allows you to host this model on Vercel with some security features using Flask API in python.
 
-[test.py](https://github.com/grubk/gpt-oss-20b-api-hosting/blob/main/test.py) is included for test cases/demonstrate usage after you deploy.
+---
+
+### Features
+- Rate limiting
+- API-key authentication
+- All features of the model accessible via API
+- [test.py](https://github.com/grubk/gpt-oss-20b-api-hosting/blob/main/test.py) is included for test cases or to demonstrate usage after you deploy.
+
+---
 
 ### Prerequisites
 1. A Vercel account
 2. A Hugging Face account with API token
 3. Git repository
 
-### Steps to Deploy
+---
 
-1. **Set up environment variables in Vercel**:
+### Usage
+
+1. **Clone the repo**
+
+2.  **Set up environment variables in Vercel**:
    - Go to your Vercel dashboard
    - Navigate to your project settings
-   - Add environment variable: `HF_TOKEN` with your Hugging Face API token
-   - Optional: Add `API_KEY` with a secure random string for API authentication
-   - Optional: Add `ENABLE_RATE_LIMITING` set to `true` to enable rate limiting (default: false)
+   - Add environment variables:
+      - `HF_TOKEN` with your Hugging Face API token
+      - Optional: Add `API_KEY` with a secure random string for API authentication
+      - Optional: Add `ENABLE_RATE_LIMITING` set to `true` to enable rate limiting (default: false)
 
-2. **Deploy via Git**:
-   - Push your code to a repository
+3. **Deploy via Git**:
    - Import the repository in Vercel dashboard
    - Vercel will automatically detect the configuration and deploy
 
+---
 
 ### Usage
 
@@ -37,11 +50,15 @@ Send POST requests to `https://your-vercel-app.vercel.app/chat` with the followi
 }
 ```
 
+---
+
 ### Files Created for Vercel Deployment
 
 - `vercel.json` - Vercel configuration
 - `requirements.txt` - Python dependencies
 - Modified `api/app.py` - Flask app with Vercel compatibility
+
+---
 
 ### Environment Variables
 
@@ -65,7 +82,7 @@ When `ENABLE_RATE_LIMITING=true`, the API applies these limits:
    ENABLE_RATE_LIMITING=true
    ```
 
-2. Install dependencies:
+2. Install dependencies (highly recommended to create a virtual environment):
    ```
    pip install -r requirements.txt
    ```
@@ -75,4 +92,4 @@ When `ENABLE_RATE_LIMITING=true`, the API applies these limits:
    python api/app.py
    ```
 
-The app will be available at `http://localhost:5000/chat`
+The app will be available locally at `http://localhost:5000/chat`
