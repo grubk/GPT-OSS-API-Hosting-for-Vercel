@@ -33,6 +33,15 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
+'''
+Note: If you would like to use a different inference provider, you can set it here.
+Here are the ones available on Hugging Face:
+- openai/gpt-oss-20b:fireworks-ai
+- openai/gpt-oss-20b:groq
+- openai/gpt-oss-20b:hyperbolic
+- openai/gpt-oss-20b:nscale
+- openai/gpt-oss-20b:hf-inference
+'''
 DEFAULT_MODEL = "openai/gpt-oss-20b:fireworks-ai"
 
 def conditional_rate_limit(rate_limit_string):
