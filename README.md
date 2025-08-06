@@ -2,6 +2,8 @@
 
 A Flask API for chatting with GPT-OSS-20B model via Hugging Face, made to be deployed on Vercel.
 
+[test.py](https://github.com/grubk/gpt-oss-20b-api-hosting/blob/main/test.py) is included for test cases/demonstrate usage after you deploy.
+
 ### Prerequisites
 1. A Vercel account
 2. A Hugging Face account with API token
