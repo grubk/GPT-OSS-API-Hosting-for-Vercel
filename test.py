@@ -71,6 +71,40 @@ if API_KEY:
         "expected_status": 200
     })
 
+# Test for rate limiting (if enabled)
+def test_rate_limiting():
+    """Test rate limiting by making multiple requests quickly"""
+    print(f"\n{'='*20} Rate Limiting Test {'='*20}")
+    print("Making 15 rapid requests to test rate limiting...")
+    
+    rate_limited = False
+    for i in range(15):
+        try:
+            headers = {"Content-Type": "application/json"}
+            if API_KEY:
+                headers["Authorization"] = f"Bearer {API_KEY}"
+            
+            payload = {
+                "messages": [{"role": "user", "content": f"Test {i+1}"}]
+            }
+            
+            response = requests.post(chat_url, json=payload, headers=headers, timeout=30)
+            print(f"Request {i+1}: Status {response.status_code}")
+            
+            if response.status_code == 429:
+                rate_limited = True
+                print(f"✅ Rate limiting triggered at request {i+1}")
+                break
+                
+        except Exception as e:
+            print(f"❌ Error on request {i+1}: {e}")
+            break
+    
+    if not rate_limited:
+        print("ℹ️ Rate limiting not triggered (may be disabled or limit not reached)")
+    
+    return True  # Always return true as this is informational
+
 # Test health check endpoint
 def test_health_check():
     print(f"\n{'='*20} Health Check {'='*20}")
@@ -98,6 +132,10 @@ for test in tests:
     success = test_api(test["name"], test["payload"], expected_status)
     if success:
         successful_tests += 1
+
+# Test rate limiting
+print(f"\n{'='*60}")
+test_rate_limiting()
 
 print(f"\n{'='*60}")
 print(f"Results: {successful_tests}/{len(tests)} tests passed")

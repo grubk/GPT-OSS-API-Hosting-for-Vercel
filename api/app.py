@@ -2,17 +2,31 @@ import os
 import requests
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 load_dotenv()  # Load HF_TOKEN from .env if available
 
 app = Flask(__name__)
 
+# Environment variables
 API_URL = "https://router.huggingface.co/v1/chat/completions"
 HF_TOKEN = os.environ.get("HF_TOKEN")
 API_KEY = os.environ.get("API_KEY")  # Optional API key for authentication
+ENABLE_RATE_LIMITING = os.environ.get("ENABLE_RATE_LIMITING", "false").lower() == "true"
 
 if not HF_TOKEN:
     raise RuntimeError("HF_TOKEN is not set in environment.")
+
+# Initialize rate limiter (conditionally)
+limiter = None
+if ENABLE_RATE_LIMITING:
+    limiter = Limiter(
+        key_func=get_remote_address,
+        app=app,
+        default_limits=[],  # No default limits, we'll apply per route
+        storage_uri="memory://",
+    )
 
 HEADERS = {
     "Authorization": f"Bearer {HF_TOKEN}",
@@ -20,6 +34,14 @@ HEADERS = {
 }
 
 DEFAULT_MODEL = "openai/gpt-oss-20b:fireworks-ai"
+
+def conditional_rate_limit(rate_limit_string):
+    """Decorator that conditionally applies rate limiting"""
+    def decorator(f):
+        if ENABLE_RATE_LIMITING and limiter:
+            return limiter.limit(rate_limit_string)(f)
+        return f
+    return decorator
 
 def require_api_key():
     """Check if API key is required and validate it"""
@@ -45,10 +67,12 @@ def health_check():
     return jsonify({
         "status": "healthy",
         "message": "GPT-OSS-20B API is running",
-        "authentication": "required" if API_KEY else "not required"
+        "authentication": "required" if API_KEY else "not required",
+        "rate_limiting": "enabled" if ENABLE_RATE_LIMITING else "disabled"
     })
 
 @app.route("/chat", methods=["POST"])
+@conditional_rate_limit("10 per minute")
 def chat():
     # Check authentication
     auth_error = require_api_key()
