@@ -20,6 +20,7 @@ A Flask API for chatting with GPT-OSS-20B model via Hugging Face.
    - Go to your Vercel dashboard
    - Navigate to your project settings
    - Add environment variable: `HF_TOKEN` with your Hugging Face API token
+   - Optional: Add `API_KEY` with a secure random string for API authentication
 
 3. **Deploy via Git**:
    - Push your code to GitHub/GitLab/Bitbucket
@@ -35,6 +36,7 @@ A Flask API for chatting with GPT-OSS-20B model via Hugging Face.
 
 Send POST requests to `https://your-vercel-app.vercel.app/chat` with the following format:
 
+**Without Authentication:**
 ```json
 {
   "messages": [
@@ -42,6 +44,19 @@ Send POST requests to `https://your-vercel-app.vercel.app/chat` with the followi
   ],
   "model": "openai/gpt-oss-20b:fireworks-ai"
 }
+```
+
+**With Authentication (if API_KEY is set):**
+```bash
+curl -X POST https://your-vercel-app.vercel.app/chat \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key-here" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "Hello!"}
+    ],
+    "model": "openai/gpt-oss-20b:fireworks-ai"
+  }'
 ```
 
 ### Files Created for Vercel Deployment
@@ -53,12 +68,14 @@ Send POST requests to `https://your-vercel-app.vercel.app/chat` with the followi
 ### Environment Variables
 
 - `HF_TOKEN` - Your Hugging Face API token (required)
+- `API_KEY` - Optional API key for authentication (if set, all requests must include Authorization header)
 
 ## Local Development
 
 1. Create a `.env` file with:
    ```
    HF_TOKEN=your_huggingface_token_here
+   API_KEY=your_optional_api_key_here
    ```
 
 2. Install dependencies:
