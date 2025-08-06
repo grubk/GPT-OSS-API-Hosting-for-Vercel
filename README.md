@@ -1,6 +1,6 @@
 # GPT-OSS-20B API for Vercel deployment
 
-‼️Today, OpenAI released an [open-source model](https://huggingface.co/openai/gpt-oss-20b) that is roughly as powerful as gpt-o3. This repo allows you to host this model on Vercel with using Flask API in python -- I included some standard security features as well.
+‼️Today, OpenAI released an [open-source model](https://huggingface.co/openai/gpt-oss-20b) that is roughly as powerful as gpt-o3. This repo allows you to host this model on Vercel with using Flask API in python. I included some standard security features as well.
 
 ---
 
