@@ -1,16 +1,23 @@
 import requests
 import json
 
-base_url = "your-deployed-url"  # Replace with your actual URL
+base_url = "https://gpt-oss-20b-api-hosting.vercel.app"  # Updated with your URL
 chat_url = f"{base_url}/chat"
 
-def test_api(test_name, payload):
+# Optional: Set your API key here if authentication is enabled
+API_KEY = None  # Replace with your API key if needed: "your-api-key-here"
+
+def test_api(test_name, payload, expected_status=200):
     print(f"\n{'='*20} {test_name} {'='*20}")
     try:
-        response = requests.post(chat_url, json=payload, timeout=30)
+        headers = {"Content-Type": "application/json"}
+        if API_KEY:
+            headers["Authorization"] = f"Bearer {API_KEY}"
+        
+        response = requests.post(chat_url, json=payload, headers=headers, timeout=30)
         print(f"Status Code: {response.status_code}")
         print(f"Response: {json.dumps(response.json(), indent=2)}")
-        return response.status_code == 200
+        return response.status_code == expected_status
     except Exception as e:
         print(f"❌ Error: {e}")
         return False
@@ -47,16 +54,48 @@ tests = [
         "name": "Error Test - Missing Messages",
         "payload": {
             "model": "openai/gpt-oss-20b:fireworks-ai"
-        }
+        },
+        "expected_status": 400
     }
 ]
+
+# Add authentication tests if API_KEY is set
+if API_KEY:
+    tests.append({
+        "name": "Auth Test - Valid API Key",
+        "payload": {
+            "messages": [
+                {"role": "user", "content": "Test with valid API key"}
+            ]
+        },
+        "expected_status": 200
+    })
+
+# Test health check endpoint
+def test_health_check():
+    print(f"\n{'='*20} Health Check {'='*20}")
+    try:
+        response = requests.get(f"{base_url}/", timeout=10)
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {json.dumps(response.json(), indent=2)}")
+        return response.status_code == 200
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return False
 
 # Run all tests
 print(f"Testing API at: {chat_url}")
 successful_tests = 0
 
+# Test health check first
+if test_health_check():
+    print("✅ Health check passed")
+else:
+    print("❌ Health check failed")
+
 for test in tests:
-    success = test_api(test["name"], test["payload"])
+    expected_status = test.get("expected_status", 200)
+    success = test_api(test["name"], test["payload"], expected_status)
     if success:
         successful_tests += 1
 
