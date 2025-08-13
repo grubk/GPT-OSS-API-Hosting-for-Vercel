@@ -24,7 +24,9 @@ This repo enables the hosting of hugging face AI models on Vercel with using Fla
 
 1. **Clone the repo**
 
-2.  **Set up environment variables in Vercel**:
+2. **Change the model, rate limiting settings, inference provider within the code if you need**
+
+3.  **Set up environment variables in Vercel**:
    - Go to your Vercel dashboard
    - Navigate to your project settings
    - Add environment variables:
@@ -32,7 +34,7 @@ This repo enables the hosting of hugging face AI models on Vercel with using Fla
       - Optional: Add `API_KEY` with a secure random string for API authentication
       - Optional: Add `ENABLE_RATE_LIMITING` set to `true` to enable rate limiting (default: false)
 
-3. **Deploy via Git**:
+4. **Deploy via Git**:
    - Import the repository in Vercel dashboard
    - Vercel will automatically detect the configuration and deploy
 
