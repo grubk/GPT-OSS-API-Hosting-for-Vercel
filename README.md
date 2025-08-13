@@ -1,8 +1,9 @@
 # Use any Hugging Face AI model for Vercel API deployment
 
-This repo enables the hosting of hugging face AI models on Vercel with using Flask API in python via inference providers. I included some standard security features as well.
+This repo enables the hosting of hugging face AI models on Vercel with using Flask API in python via inference providers. I included some standard security features as well.  
 
-‼️By default, the model used is gpt-oss-20b, an open-sourced model by OpenAI which is roughly as powerful as their o3 model.
+‼️By default, the model used is gpt-oss-20b, an open-sourced model by OpenAI which is roughly as powerful as their o3 model. Any LLM should work as long as queries and outputs are in text format.
+
 ---
 
 ### Features
